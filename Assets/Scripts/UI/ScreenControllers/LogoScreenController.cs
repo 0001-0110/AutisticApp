@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ public class LogoScreenController : ScreenController
     protected async void OpenScreenAsync(GameObject screen, int delay = 2000)
     {
         await Task.Delay(delay);
-        OpenScreen(screen);
+        if (Application.isPlaying)
+            OpenScreen(screen);
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ScreenController : MonoBehaviour
+public abstract class ScreenController : MonoBehaviour
 {
     public void OpenScreen(GameObject screen)
     {
