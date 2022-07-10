@@ -2,7 +2,7 @@ using UnityEngine;
 
 using Gameplay;
 
-public class ThemeScrollViewController : ScrollViewController
+public class ThemeScrollViewController_OBSOLETE : ScrollViewController_OBSOLETE
 {
     // NonReorderable Is only used to avoid overlap in the editor
     [NonReorderable]

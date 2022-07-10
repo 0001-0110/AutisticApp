@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
-public abstract class ScrollViewController : MonoBehaviour
+public abstract class ScrollViewController_OBSOLETE : MonoBehaviour
 {
     public GameObject ButtonPrefab;
     private float buttonPrefabHeight;

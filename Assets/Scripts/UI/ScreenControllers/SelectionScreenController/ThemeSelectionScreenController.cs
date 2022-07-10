@@ -29,7 +29,7 @@ public class ThemeSelectionScreenController : SelectionScreenController
     public void SelectTheme(Theme theme)
     {
         Debug.Log($"DEBUG - 22 | SelectTheme called with {theme}");
-        NextScreen.GetComponent<LevelSelectionScreenController>().Init(theme);
         OpenScreen(NextScreen);
+        NextScreen.GetComponent<LevelSelectionScreenController>().Init(theme);
     }
 }

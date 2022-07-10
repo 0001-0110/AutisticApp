@@ -2,7 +2,7 @@ using UnityEngine;
 
 using Gameplay;
 
-public class LevelScrollViewController : ScrollViewController
+public class LevelScrollViewController_OBSOLETE : ScrollViewController_OBSOLETE
 {
     //public Level[] Levels;
 

@@ -1,23 +1,21 @@
 using System.Collections;
-using UnityEngine.Networking;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class GameController : MonoBehaviour
 {
     private WebViewObject webViewObject;
 
-    public void Start()
-    {
-        StartCoroutine(InitWebview("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
-    }
-
     /// <summary>
-    /// TODO add comments
+    /// Dark magic, do not touch
     /// </summary>
     /// <param name="url"></param>
     /// <returns></returns>
-    public IEnumerator InitWebview(string url)
+    public void InitWebView(string url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
     {
+#if UNITY_EDITOR
+        Debug.LogWarning("Warning: WebView is not compatible with the editor, please use a development build");
+#else
         webViewObject = GetComponent<WebViewObject>();
         webViewObject.Init();
         // TODO are these lines useful ? need some tests on IOS
@@ -28,7 +26,14 @@ public class GameController : MonoBehaviour
         webViewObject.SetMargins(0, 0, 0, 0);
         webViewObject.SetTextZoom(100);     // android only. cf. https://stackoverflow.com/questions/21647641/android-webview-set-font-size-system-default/47017410#47017410
         webViewObject.SetVisibility(true);
-#if !UNITY_WEBPLAYER && !UNITY_WEBGL
+
+        //DebugText.text = $"DEBUG - 22 | Trying to start coroutine";
+        StartCoroutine(LoadUrl(url));
+#endif
+    }
+
+    private IEnumerator LoadUrl(string url)
+    {
         if (url.StartsWith("http"))
             webViewObject.LoadURL(url.Replace(" ", "%20"));
         else
@@ -46,7 +51,8 @@ public class GameController : MonoBehaviour
                 var dst = System.IO.Path.Combine(Application.persistentDataPath, _url);
                 byte[] result = null;
                 if (src.Contains("://"))
-                {  // for Android
+                {
+                    // for Android
                     // NOTE: a more complete code that utilizes UnityWebRequest can be found in https://github.com/gree/unity-webview/commit/2a07e82f760a8495aa3a77a23453f384869caba7#diff-4379160fa4c2a287f414c07eb10ee36d
                     var unityWebRequest = UnityWebRequest.Get(src);
                     yield return unityWebRequest.SendWebRequest();
@@ -54,12 +60,6 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-#else
-        if (Url.StartsWith("http"))
-            webViewObject.LoadURL(Url.Replace(" ", "%20"));
-        else
-            webViewObject.LoadURL("StreamingAssets/" + Url.Replace(" ", "%20"));
-#endif
         yield break;
     }
 }

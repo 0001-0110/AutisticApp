@@ -27,7 +27,8 @@ public class LevelSelectionScreenController : SelectionScreenController
     public void SelectLevel(Level level)
     {
         Debug.Log($"DEBUG - 22 | SelectLevel called with {level}");
-        NextScreen.GetComponent<QuestionScreenController>().Init(level.Question);
+        // This needs to be before Init, because coroutines need the gameObject to be active
         OpenScreen(NextScreen);
+        NextScreen.GetComponent<GameScreenController>().Init(level);
     }
 }
