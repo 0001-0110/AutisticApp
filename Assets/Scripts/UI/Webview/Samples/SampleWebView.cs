@@ -20,6 +20,7 @@
 
 using System.Collections;
 using UnityEngine;
+using TMPro;
 #if UNITY_2018_4_OR_NEWER
 using UnityEngine.Networking;
 #endif
@@ -28,12 +29,12 @@ using UnityEngine.UI;
 public class SampleWebView : MonoBehaviour
 {
     public string Url;
-    public Text status;
+    public TextMeshProUGUI status;
     WebViewObject webViewObject;
 
     IEnumerator Start()
     {
-        webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
+        webViewObject = new GameObject("WebViewObject").AddComponent<WebViewObject>();
         webViewObject.Init(
             cb: (msg) =>
             {
@@ -153,20 +154,25 @@ public class SampleWebView : MonoBehaviour
         webViewObject.SetVisibility(true);
 
 #if !UNITY_WEBPLAYER && !UNITY_WEBGL
-        if (Url.StartsWith("http")) {
+        if (Url.StartsWith("http"))
+        {
             webViewObject.LoadURL(Url.Replace(" ", "%20"));
-        } else {
+        }
+        else
+        {
             var exts = new string[]{
                 ".jpg",
                 ".js",
                 ".html"  // should be last
             };
-            foreach (var ext in exts) {
+            foreach (var ext in exts)
+            {
                 var url = Url.Replace(".html", ext);
                 var src = System.IO.Path.Combine(Application.streamingAssetsPath, url);
                 var dst = System.IO.Path.Combine(Application.persistentDataPath, url);
                 byte[] result = null;
-                if (src.Contains("://")) {  // for Android
+                if (src.Contains("://"))
+                {  // for Android
 #if UNITY_2018_4_OR_NEWER
                     // NOTE: a more complete code that utilizes UnityWebRequest can be found in https://github.com/gree/unity-webview/commit/2a07e82f760a8495aa3a77a23453f384869caba7#diff-4379160fa4c2a287f414c07eb10ee36d
                     var unityWebRequest = UnityWebRequest.Get(src);
@@ -177,11 +183,14 @@ public class SampleWebView : MonoBehaviour
                     yield return www;
                     result = www.bytes;
 #endif
-                } else {
+                }
+                else
+                {
                     result = System.IO.File.ReadAllBytes(src);
                 }
                 System.IO.File.WriteAllBytes(dst, result);
-                if (ext == ".html") {
+                if (ext == ".html")
+                {
                     webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
                     break;
                 }
@@ -202,20 +211,23 @@ public class SampleWebView : MonoBehaviour
         var x = 10;
 
         GUI.enabled = webViewObject.CanGoBack();
-        if (GUI.Button(new Rect(x, 10, 80, 80), "<")) {
+        if (GUI.Button(new Rect(x, 10, 80, 80), "<"))
+        {
             webViewObject.GoBack();
         }
         GUI.enabled = true;
         x += 90;
 
         GUI.enabled = webViewObject.CanGoForward();
-        if (GUI.Button(new Rect(x, 10, 80, 80), ">")) {
+        if (GUI.Button(new Rect(x, 10, 80, 80), ">"))
+        {
             webViewObject.GoForward();
         }
         GUI.enabled = true;
         x += 90;
 
-        if (GUI.Button(new Rect(x, 10, 80, 80), "r")) {
+        if (GUI.Button(new Rect(x, 10, 80, 80), "r"))
+        {
             webViewObject.Reload();
         }
         x += 90;
@@ -223,32 +235,40 @@ public class SampleWebView : MonoBehaviour
         GUI.TextField(new Rect(x, 10, 180, 80), "" + webViewObject.Progress());
         x += 190;
 
-        if (GUI.Button(new Rect(x, 10, 80, 80), "*")) {
+        if (GUI.Button(new Rect(x, 10, 80, 80), "*"))
+        {
             var g = GameObject.Find("WebViewObject");
-            if (g != null) {
+            if (g != null)
+            {
                 Destroy(g);
-            } else {
+            }
+            else
+            {
                 StartCoroutine(Start());
             }
         }
         x += 90;
 
-        if (GUI.Button(new Rect(x, 10, 80, 80), "c")) {
+        if (GUI.Button(new Rect(x, 10, 80, 80), "c"))
+        {
             Debug.Log(webViewObject.GetCookies(Url));
         }
         x += 90;
 
-        if (GUI.Button(new Rect(x, 10, 80, 80), "x")) {
+        if (GUI.Button(new Rect(x, 10, 80, 80), "x"))
+        {
             webViewObject.ClearCookies();
         }
         x += 90;
 
-        if (GUI.Button(new Rect(x, 10, 80, 80), "D")) {
+        if (GUI.Button(new Rect(x, 10, 80, 80), "D"))
+        {
             webViewObject.SetInteractionEnabled(false);
         }
         x += 90;
 
-        if (GUI.Button(new Rect(x, 10, 80, 80), "E")) {
+        if (GUI.Button(new Rect(x, 10, 80, 80), "E"))
+        {
             webViewObject.SetInteractionEnabled(true);
         }
         x += 90;
