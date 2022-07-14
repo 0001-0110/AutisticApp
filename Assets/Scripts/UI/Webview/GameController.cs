@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 
 public class GameController : MonoBehaviour
 {
+    public GameScreenController GameScreenController;
     private WebViewObject webViewObject;
 
     /// <summary>
@@ -16,22 +17,31 @@ public class GameController : MonoBehaviour
 #if UNITY_EDITOR
         Debug.LogWarning("Warning: WebView is not compatible with the editor, please use a development build");
 #else
-        webViewObject = GetComponent<WebViewObject>();
+        // create the webView object
+        webViewObject = new GameObject("WebViewObject").AddComponent<WebViewObject>();
         webViewObject.Init();
-        // TODO are these lines useful ? need some tests on IOS
+        // TODO I don't know if this is necessary, but i'm too scared to remove it
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         webViewObject.bitmapRefreshCycle = 1;
 #endif
         // no margins means full screen
-        webViewObject.SetMargins(0, 0, 0, 0);
+        // TODO margins are depending on the size of the physical screen, not the unity screen
+        // How can I adapt it to different resolution ?
+        webViewObject.SetMargins(0, 0, 0, 400);
         webViewObject.SetTextZoom(100);     // android only. cf. https://stackoverflow.com/questions/21647641/android-webview-set-font-size-system-default/47017410#47017410
         webViewObject.SetVisibility(true);
 
-        //DebugText.text = $"DEBUG - 22 | Trying to start coroutine";
+        // Let me guess, you touched something you weren't suppose to touch
         StartCoroutine(LoadUrl(url));
 #endif
     }
 
+    /// <summary>
+    /// ¯\_(?)_/¯
+    /// </summary>
+    /// <param name="url">url of the website we are trying to reach. Must end with .jpg, .js or .html</param>
+    /// <returns></returns>
+    /// <remarks>It works, but I don't know why</remarks>
     private IEnumerator LoadUrl(string url)
     {
         if (url.StartsWith("http"))
@@ -61,5 +71,11 @@ public class GameController : MonoBehaviour
             }
         }
         yield break;
+    }
+
+    public void DestroyWebView()
+    {
+        // webViewObject might be null when working in the editor
+        Destroy(webViewObject?.gameObject);
     }
 }
