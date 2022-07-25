@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
 
@@ -9,6 +11,7 @@ public class ChatScreenController : ScreenController
 
     private PhotonView photonView;
 
+    public ScrollRect ScrollRect;
     public TMP_InputField MessageInput;
     private GameObject ChatContent;
 
@@ -23,11 +26,17 @@ public class ChatScreenController : ScreenController
         //RoomOptions roomOptions = new RoomOptions { MaxPlayers = 2 };
     }
 
-    public void DisplayChatMessage(string message, bool sender = false)
+    public IEnumerator DisplayChatMessage(string message, bool sender = false)
     {
         GameObject chatMessagePrefab = sender ? SenderChatMessagePrefab : ReceiverChatMessagePrefab;
         GameObject ChatMessage = Instantiate(chatMessagePrefab, ChatContent.transform);
         ChatMessage.GetComponent<ChatMessageController>().InitMessage(message);
+        // Wait for one frame
+        // If we don't wait for at least one frame, the last message is ignored when scrolling down
+        yield return null;
+        // Scroll to the bottom of the chat
+        ScrollRect.normalizedPosition = Vector2.zero;
+        yield break;
     }
 
     public void SendChatMessage()
@@ -36,7 +45,7 @@ public class ChatScreenController : ScreenController
         // send message to others
         photonView.RPC("ReceiveChatMessage", RpcTarget.Others, MessageInput.text);
         // display my own message
-        DisplayChatMessage(MessageInput.text, true);
+        StartCoroutine(DisplayChatMessage(MessageInput.text, true));
         // Clear the input
         MessageInput.text = string.Empty;
     }
@@ -45,7 +54,7 @@ public class ChatScreenController : ScreenController
     public void ReceiveChatMessage(string message)
     {
         Debug.Log($"DEBUG - 22 | Message received: {message}");
-        DisplayChatMessage(message, false);
+        StartCoroutine(DisplayChatMessage(message, false));
     }
 
     public void ExitChat()
