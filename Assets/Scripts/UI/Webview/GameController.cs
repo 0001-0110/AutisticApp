@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     /// <param name="url">url of the website we are trying to reach. Must end with .jpg, .js or .html</param>
     /// <returns></returns>
-    /// <remarks>It works, but I don't know why</remarks>
+    /// <remarks>It works, good enough for me</remarks>
     private IEnumerator LoadUrl(string url)
     {
         if (url.StartsWith("http"))
@@ -76,6 +76,7 @@ public class GameController : MonoBehaviour
     public void DestroyWebView()
     {
         // webViewObject might be null when working in the editor
+        // TODO there is a weird bug where the webview is not destroyed
         Destroy(webViewObject?.gameObject);
     }
 }
