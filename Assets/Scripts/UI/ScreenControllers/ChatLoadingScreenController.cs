@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
 
-public class ChatMenuScreenController : ScreenController
+public class ChatLoadingScreenController : ScreenController
 {
     public MultiplayerController MultiplayerController;
     [Tooltip("The name of the room where everyone is connected")]

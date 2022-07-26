@@ -15,8 +15,6 @@ public class ChatScreenController : ScreenController
     public TMP_InputField MessageInput;
     private GameObject ChatContent;
 
-    public GameObject ChatMenuScreen;
-
     public void Start()
     {
         photonView = GetComponent<PhotonView>();
@@ -57,9 +55,9 @@ public class ChatScreenController : ScreenController
         StartCoroutine(DisplayChatMessage(message, false));
     }
 
-    public void ExitChat()
+    public void ExitChat(GameObject screen)
     {
         PhotonNetwork.LeaveRoom();
-        OpenScreen(ChatMenuScreen);
+        OpenScreen(screen);
     }
 }

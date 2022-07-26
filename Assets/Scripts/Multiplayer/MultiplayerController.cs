@@ -13,6 +13,7 @@ public class MultiplayerController : MonoBehaviourPunCallbacks
     public bool IsConnectedToLobby { get; private set; }
     public bool IsConnectedToRoom { get; private set; }
 
+    public Player LocalPlayer => PhotonNetwork.LocalPlayer;
     public Dictionary<int, Player> Players => PhotonNetwork.CurrentRoom.Players;
 
     public void Start()

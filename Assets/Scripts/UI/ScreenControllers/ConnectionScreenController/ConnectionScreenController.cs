@@ -2,18 +2,23 @@ using System.Threading.Tasks;
 using UnityEngine;
 using TMPro;
 
-public class ConnectionScreenController : ScreenController
+public abstract class ConnectionScreenController : ScreenController
 {
     public TextMeshProUGUI ButtonText;
     public GameObject NextScreen;
 
     public string InvalidText;
 
+    public TMP_InputField UserNameInput;
+    public TMP_InputField PasswordInput;
     private TMP_InputField[] inputFields;
+
+    private MultiplayerController multiplayerController;
 
     public virtual void Awake()
     {
         inputFields = GetComponentsInChildren<TMP_InputField>(true);
+        multiplayerController = GameObject.Find("MultiplayerController").GetComponent<MultiplayerController>();
     }
 
     public virtual void OnEnable()
@@ -46,6 +51,7 @@ public class ConnectionScreenController : ScreenController
             InvalidInput();
         else
         {
+            multiplayerController.LocalPlayer.NickName = UserNameInput.text;
             OpenScreen(NextScreen);
         }
     }
