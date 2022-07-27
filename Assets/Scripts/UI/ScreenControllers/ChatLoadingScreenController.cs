@@ -15,10 +15,10 @@ public class ChatLoadingScreenController : ScreenController
     public GameObject ChatScreen;
 
     // This async method return type is void because it is a unity message
-    public async void Start()
+    public async void OnEnable()
     {
         //SetButtonsInteractable(false);
-        if (await MultiplayerController.ConnectToMaster())
+        if (MultiplayerController.IsConnectedToMaster || await MultiplayerController.ConnectToMaster())
         {
             RoomOptions roomOptions = new RoomOptions();
             if (await MultiplayerController.JoinOrCreateRoom(PublicRoomName, roomOptions))

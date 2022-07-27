@@ -27,6 +27,10 @@ public class ChatUserListScreen : ScreenController
 
     private void RefreshPlayerInfos()
     {
+        // Clear all previous player infos
+        foreach (GameObject playerInfo in playerInfos)
+            Destroy(playerInfo);
+
         if (multiplayerController.Players.Count == 0)
         {
             // TODO you have no friends
@@ -34,7 +38,7 @@ public class ChatUserListScreen : ScreenController
 
         foreach (Player player in multiplayerController.Players.Values)
         {
-            if (player != multiplayerController.LocalPlayer)
+            if (player != multiplayerController.LocalPlayer || true)
             {
                 GameObject newPlayerInfo = Instantiate(UserProfilePrefab, content.transform);
                 newPlayerInfo.GetComponent<UserInfoController>().InitUserInfo(player.NickName);

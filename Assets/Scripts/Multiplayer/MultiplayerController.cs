@@ -23,6 +23,12 @@ public class MultiplayerController : MonoBehaviourPunCallbacks
         IsConnectedToRoom = false;
     }
 
+    public void OnApplicationQuit()
+    {
+        if (IsConnectedToRoom)
+            PhotonNetwork.LeaveRoom();
+    }
+
     public override void OnConnectedToMaster()
     {
         IsConnectedToMaster = true;
