@@ -6,10 +6,13 @@ namespace Gameplay
     [Serializable]
     public class Question
     {
+        [Tooltip("The question to ask the user")]
         public string QuestionString;
+        [Tooltip("The correct answer to this question")]
         public string Answer;
         // NonReorderable Is only used to avoid overlap in the editor
         [NonReorderable]
+        [Tooltip("All the possible (but wrong) answers")]
         public string[] OtherOptions;
 
         public override string ToString()

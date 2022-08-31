@@ -12,8 +12,9 @@ public class ChatMessageController : MonoBehaviour
         text = transform.Find("Bubble").Find("Text").GetComponent<TextMeshProUGUI>();
     }
 
-    public void InitMessage(string message)
+    public void InitMessage(string userName, string message)
     {
+        // TODO display sender userName
         text.text = message;
     }
 }

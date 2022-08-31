@@ -29,6 +29,7 @@ public class ChatLoadingScreenController : ScreenController
 
     public override void OpenScreen(GameObject screen)
     {
+        // TODO why ?
         StopAllCoroutines();
         base.OpenScreen(screen);
     }

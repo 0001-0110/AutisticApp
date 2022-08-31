@@ -38,7 +38,7 @@ public class ChatUserListScreen : ScreenController
 
         foreach (Player player in multiplayerController.Players.Values)
         {
-            if (player != multiplayerController.LocalPlayer || true)
+            if (player != multiplayerController.LocalPlayer)
             {
                 GameObject newPlayerInfo = Instantiate(UserProfilePrefab, content.transform);
                 newPlayerInfo.GetComponent<UserInfoController>().InitUserInfo(player.NickName);
